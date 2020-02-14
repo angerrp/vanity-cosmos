@@ -32,11 +32,11 @@ def contains(vanity, bech_addr: str) -> bool:
 
 
 def letters(vanity, bech_addr: str) -> bool:
-    return vanity == sum(not c.isdigit() for c in bech_addr)
+    return vanity <= sum(not c.isdigit() for c in bech_addr[7:])
 
 
 def digits(vanity, bech_addr: str) -> bool:
-    return vanity == sum(c.isdigit() for c in bech_addr)
+    return vanity <= sum(c.isdigit() for c in bech_addr[7:])
 
 
 def _is_valid_addr(predicates, candidate: str) -> Optional[str]:

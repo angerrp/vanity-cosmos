@@ -52,9 +52,9 @@ def main():
         vanity_args[ends_with] = str(args.endswith)
     if args.contains and _is_valid_bech32(args.contains):
         vanity_args[contains] = args.contains
-    if args.letters and _is_valid_bech32(args.letters):
+    if args.letters and args.letters:
         vanity_args[letters] = args.letters
-    if args.digits and _is_valid_bech32(args.digits):
+    if args.digits and args.digits:
         vanity_args[digits] = args.digits
 
     with Pool(processes=mp.cpu_count()) as pool:
