@@ -18,7 +18,7 @@ setuptools.setup(
     description="Tool for generating custom cosmos addresses.",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/etimoz/vanity-cosmos/",
     keywords="cosmos blockchain atom cryptocurrency address generator vanity",
     zip_safe=False,
     packages=setuptools.find_packages(),
