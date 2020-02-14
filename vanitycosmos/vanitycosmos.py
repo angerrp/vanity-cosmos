@@ -1,13 +1,13 @@
 import hashlib
 from multiprocessing import Event, Queue
-from typing import Optional, Callable, Dict
+from typing import Callable, Dict, Optional
 
 import bech32
 import secp256k1
 
-# on mac brew install automake pkg-config libtool libffi gmp
 
-BECH32_CHARSET = "023456789acdefghjklmnpqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ"
+_BECH32_CHARSET = "023456789acdefghjklmnpqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ"
+
 
 def generate_wallet():
     priv_key: secp256k1.PrivateKey = secp256k1.PrivateKey()
@@ -18,20 +18,26 @@ def generate_wallet():
     bech_addr = bech32.bech32_encode("cosmos", bech32.convertbits(r, 8, 5))
     return bech_addr, byte_arr.hex(), priv_key.serialize()
 
-def ends_with(suffix: str, bech_addr: str) -> bool:
+
+def ends_with(suffix, bech_addr: str) -> bool:
     return bech_addr.endswith(suffix)
 
-def starts_with(prefix: str, bech_addr: str) -> bool:
+
+def starts_with(prefix, bech_addr: str) -> bool:
     return bech_addr[7:].startswith(prefix)
 
-def contains(vanity: str, bech_addr: str) -> bool:
+
+def contains(vanity, bech_addr: str) -> bool:
     return vanity in bech_addr
 
-def letters(vanity: str, bech_addr: str) -> bool:
-    return vanity in bech_addr
 
-def digits(vanity: str, bech_addr: str) -> bool:
-    return vanity in bech_addr
+def letters(vanity, bech_addr: str) -> bool:
+    return vanity == sum(not c.isdigit() for c in bech_addr)
+
+
+def digits(vanity, bech_addr: str) -> bool:
+    return vanity == sum(c.isdigit() for c in bech_addr)
+
 
 def _is_valid_addr(predicates, candidate: str) -> Optional[str]:
     is_valid = set()
