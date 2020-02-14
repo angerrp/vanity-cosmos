@@ -53,4 +53,3 @@ def find_vanity_addr(predicates: Dict[Callable, str], event: Event(), queue: Que
         candidate, pub, priv = generate_wallet()
         if _is_valid_addr(predicates, candidate):
             queue.put((candidate, pub, priv))
-            event.set()

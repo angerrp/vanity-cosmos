@@ -25,4 +25,5 @@ setuptools.setup(
     classifiers=[],
     python_requires=">=3.6",
     install_requires=["bech32", "secp256k1",],
+    entry_points={"console_scripts": ["vanitycosmos = vanitycosmos.__main__:main"]},
 )

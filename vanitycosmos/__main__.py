@@ -2,33 +2,18 @@ import argparse
 import multiprocessing as mp
 from multiprocessing import Manager, Pool
 
-from vanitycosmos.vanitycosmos import (_BECH32_CHARSET, contains, digits,
-                                       ends_with, find_vanity_addr, letters,
-                                       starts_with)
+from vanitycosmos.vanitycosmos import (
+    _BECH32_CHARSET,
+    contains,
+    digits,
+    ends_with,
+    find_vanity_addr,
+    letters,
+    starts_with,
+)
 
 
-def main(vanity_dict, addresses):
-    with Pool() as pool:
-        manager = Manager()
-        event = manager.Event()
-        queue = manager.Queue()
-        for i in range(addresses):
-            [
-                pool.apply_async(find_vanity_addr, args=(vanity_dict, event, queue))
-                for _ in range(mp.cpu_count())
-            ]
-            print(queue.get())
-
-
-def _is_valid_bech32(vanity: str):
-    for c in vanity:
-        if c not in _BECH32_CHARSET:
-            print(f"Not valid bech32 vanity input for {vanity}")
-            exit(1)
-    return True
-
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Cosmosvanity, create custom cosmos addresses."
     )
@@ -56,7 +41,7 @@ if __name__ == "__main__":
         help="Find an address containing the provided number of digits.",
     )
     parser.add_argument(
-        "--n", type=int, help="Number of addresses to search for.", default=1
+        "-n", type=int, help="Number of addresses to search for.", default=1
     )
     args = parser.parse_args()
 
@@ -71,4 +56,35 @@ if __name__ == "__main__":
         vanity_args[letters] = args.letters
     if args.digits and _is_valid_bech32(args.digits):
         vanity_args[digits] = args.digits
-    main(vanity_args, args.n)
+
+    with Pool(processes=mp.cpu_count()) as pool:
+        manager = Manager()
+        event = manager.Event()
+        queue = manager.Queue()
+        for i in range(args.n):
+            for _ in range(mp.cpu_count()):
+                pool.apply_async(find_vanity_addr, args=(vanity_args, event, queue))
+
+        vanity_addresses = []
+        address = None
+        while not address:
+            address = queue.get()
+            vanity_addresses.append(address)
+            address = None
+            if len(vanity_addresses) >= args.n:
+                event.set()
+                break
+        for address in vanity_addresses:
+            print(address)
+
+
+def _is_valid_bech32(vanity: str):
+    for c in vanity:
+        if c not in _BECH32_CHARSET:
+            print(f"Not valid bech32 vanity input for {vanity}")
+            exit(1)
+    return True
+
+
+if __name__ == "__main__":
+    main()
