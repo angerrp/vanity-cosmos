@@ -79,10 +79,9 @@ def main():
 
 
 def _is_valid_bech32(vanity: str):
-    for c in vanity:
-        if c not in _BECH32_CHARSET:
-            print(f"Not valid bech32 vanity input for {vanity}")
-            exit(1)
+    if not all(c in _BECH32_CHARSET for c in vanity):
+        print(f"Not valid bech32 vanity input for {vanity}")
+        exit(1)
     return True
 
 
