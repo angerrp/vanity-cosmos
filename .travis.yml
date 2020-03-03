@@ -7,7 +7,7 @@ python:
   - '3.8'
   - '3.9-dev'
 before_install:
-  - sudo apt-get -y install libsecp256k1
+  - sudo apt-get -y install libsecp256k1-0
 install:
   - pip install .[dev]
 script:
