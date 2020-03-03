@@ -15,7 +15,7 @@ from vanitycosmos.vanitycosmos import (
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Cosmosvanity, create custom cosmos addresses."
+        description="Cosmosvanity - Create custom cosmos addresses."
     )
     parser.add_argument(
         "--startswith",
