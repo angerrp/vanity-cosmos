@@ -2,13 +2,9 @@ from os import path
 
 import setuptools
 
-INSTALL_REQUIRES = [
-    "bech32", "secp256k1"
-]
+INSTALL_REQUIRES = ["bech32", "secp256k1"]
 
-TEST_REQUIRES = [
-    "pytest", "pytest-cov", "pytest-mock"
-]
+TEST_REQUIRES = ["pytest", "pytest-cov", "pytest-mock"]
 
 
 def read(file_name: str) -> str:
@@ -31,9 +27,7 @@ setuptools.setup(
     zip_safe=False,
     packages=setuptools.find_packages(),
     classifiers=[],
-    extras_require={
-        "test": TEST_REQUIRES + INSTALL_REQUIRES,
-    },
+    extras_require={"test": TEST_REQUIRES + INSTALL_REQUIRES,},
     python_requires=">=3.6",
     install_requires=INSTALL_REQUIRES,
     entry_points={"console_scripts": ["vanitycosmos = vanitycosmos.__main__:main"]},
