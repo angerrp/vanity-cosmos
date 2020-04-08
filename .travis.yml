@@ -11,11 +11,15 @@ virtualenv:
 before_install:
   - sudo apt-get -y install libssl-dev build-essential automake pkg-config libtool libffi-dev libgmp-dev libyaml-cpp-dev
   - sudo apt-get -y install libsecp256k1-dev
+  - python --version
+  - pip install -U pip
+  - pip install -U pytest
+  - pip install codecov
 install:
-  - pip install -r .[tests]
+  - pip install ".[test]" . # install package + test dependencies
 script:
   # Tests
-  - pytest --cov
+  - pytest
 after_success:
   # Upload coverage (only in Python 3.6 job, to not spam codecov with the same coverage report)
   - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then codecov; fi

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/hukkinj1/cosmospy.svg?branch=master)](https://travis-ci.com/github/etimoz/vanity-cosmos)
+[![codecov.io](https://codecov.io/gh/hukkinj1/cosmospy/branch/master/graph/badge.svg)](https://codecov.io/gh/etimoz/vanity-cosmos)
 # vanity-cosmos
 
 > CLI tool for creating [Cosmos](https://cosmos.network) vanity addresses
