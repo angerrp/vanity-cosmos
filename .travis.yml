@@ -17,7 +17,7 @@ install:
   - pip install ".[test]" . # install package + test dependencies
 script:
   # Tests
-  - pytest
+  - pytest --cov
 after_success:
   # Upload coverage (only in Python 3.6 job, to not spam codecov with the same coverage report)
   - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then codecov; fi
