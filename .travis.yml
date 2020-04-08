@@ -6,8 +6,6 @@ python:
   - '3.7'
   - '3.8'
   - '3.9-dev'
-virtualenv:
-  system_site_packages: true
 before_install:
   - sudo apt-get -y install libssl-dev build-essential automake pkg-config libtool libffi-dev libgmp-dev libyaml-cpp-dev
   - sudo apt-get -y install libsecp256k1-dev
