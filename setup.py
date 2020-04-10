@@ -15,7 +15,7 @@ def read(file_name: str) -> str:
 
 
 setuptools.setup(
-    name="etimoz",
+    name="vanity-cosmos",
     version="0.1.0",
     author="Paul Angerer",
     author_email="etimoz@users.noreply.github.com",
