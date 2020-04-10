@@ -22,8 +22,12 @@ setuptools.setup(
     keywords="cosmos blockchain atom cryptocurrency address generator vanity",
     zip_safe=False,
     packages=setuptools.find_packages(),
-    classifiers=[],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
     python_requires=">=3.6",
-    install_requires=["bech32", "secp256k1", ],
+    install_requires=["bech32", "secp256k1",],
     entry_points={"console_scripts": ["vanitycosmos = vanitycosmos.__main__:main"]},
 )
