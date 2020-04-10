@@ -1,10 +1,14 @@
+import time
+
 from unittest.mock import patch
+from multiprocessing import Event, Queue, Process
 from vanitycosmos.vanitycosmos import (
     generate_wallet,
     starts_with,
     ends_with,
     letters,
     digits,
+    find_vanity_addr,
 )
 
 _WALLET = (
@@ -36,3 +40,38 @@ def test_letters():
 
 def test_digits():
     assert digits(5, "cosmos112345")
+
+
+def _trigger_event(event: Event):
+    time.sleep(1)
+    event.set()
+
+
+def test_find_vanity_address_success():
+    predicates = {
+        starts_with: "0000",
+        ends_with: "0000",
+    }
+    event = Event()
+    queue_mock = Queue()
+    process = Process(target=_trigger_event, args=(event,))
+    process.start()
+    with patch("vanitycosmos.vanitycosmos.starts_with", return_value=True), patch(
+        "vanitycosmos.vanitycosmos.ends_with", return_value=True
+    ):
+        find_vanity_addr(predicates, event, queue_mock)
+
+
+def test_find_vanity_address_fails():
+    predicates = {
+        starts_with: "0000",
+        ends_with: "0000",
+    }
+    event = Event()
+    queue_mock = Queue()
+    process = Process(target=_trigger_event, args=(event,))
+    process.start()
+    with patch("vanitycosmos.vanitycosmos.starts_with", return_value=False), patch(
+        "vanitycosmos.vanitycosmos.ends_with", return_value=False
+    ):
+        find_vanity_addr(predicates, event, queue_mock)

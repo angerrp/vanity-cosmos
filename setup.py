@@ -2,6 +2,10 @@ from os import path
 
 import setuptools
 
+INSTALL_REQUIRES = ["bech32", "secp256k1"]
+
+TEST_REQUIRES = ["pytest", "pytest-cov", "pytest-mock"]
+
 
 def read(file_name: str) -> str:
     """Helper to read README."""
@@ -27,7 +31,8 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    extras_require={"test": TEST_REQUIRES + INSTALL_REQUIRES,},
     python_requires=">=3.6",
-    install_requires=["bech32", "secp256k1",],
+    install_requires=INSTALL_REQUIRES,
     entry_points={"console_scripts": ["vanitycosmos = vanitycosmos.__main__:main"]},
 )
